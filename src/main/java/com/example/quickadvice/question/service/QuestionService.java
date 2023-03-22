@@ -32,4 +32,8 @@ public class QuestionService {
 
     public void deleteQuestion(UUID id) {
     }
+
+    public List<Question> findAllByCategoryId(UUID id) {
+        return null;
+    }
 }
