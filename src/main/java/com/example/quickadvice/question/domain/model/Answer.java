@@ -2,22 +2,37 @@ package com.example.quickadvice.question.domain.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.util.UUID;
 
 @Entity
 @Table(name = "answers")
 public class Answer {
+
     @Id
     private UUID id;
+
     private String name;
 
+    @ManyToOne
+    private Question question;
+
     public Answer() {
+        this.id = UUID.randomUUID();
     }
 
     public Answer(String name) {
+        this();
         this.name = name;
-        this.id = UUID.randomUUID();
+    }
+
+    public Question getQuestion() {
+        return question;
+    }
+
+    public void setQuestion(Question question) {
+        this.question = question;
     }
 
     public String getName() {
