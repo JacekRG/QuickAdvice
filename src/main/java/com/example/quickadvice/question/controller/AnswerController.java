@@ -1,6 +1,6 @@
 package com.example.quickadvice.question.controller;
 
-import com.example.quickadvice.question.domain.Answer;
+import com.example.quickadvice.question.domain.model.Answer;
 import com.example.quickadvice.question.service.AnswerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

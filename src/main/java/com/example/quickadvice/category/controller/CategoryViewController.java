@@ -2,7 +2,7 @@ package com.example.quickadvice.category.controller;
 
 import com.example.quickadvice.category.domain.model.Category;
 import com.example.quickadvice.category.service.CategoryService;
-import com.example.quickadvice.question.domain.Question;
+import com.example.quickadvice.question.domain.model.Question;
 import com.example.quickadvice.question.service.QuestionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

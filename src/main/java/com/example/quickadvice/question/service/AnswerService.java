@@ -1,6 +1,6 @@
 package com.example.quickadvice.question.service;
 
-import com.example.quickadvice.question.domain.Answer;
+import com.example.quickadvice.question.domain.model.Answer;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;

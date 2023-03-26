@@ -1,4 +1,4 @@
-package com.example.quickadvice.question.domain;
+package com.example.quickadvice.question.domain.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -6,16 +6,16 @@ import javax.persistence.Table;
 import java.util.UUID;
 
 @Entity
-@Table(name = "questions")
-public class Question {
+@Table(name = "answers")
+public class Answer {
     @Id
     private UUID id;
     private String name;
 
-    public Question() {
+    public Answer() {
     }
 
-    public Question(String name) {
+    public Answer(String name) {
         this.name = name;
         this.id = UUID.randomUUID();
     }
@@ -38,7 +38,7 @@ public class Question {
 
     @Override
     public String toString() {
-        return "Question{" +
+        return "Answer{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';

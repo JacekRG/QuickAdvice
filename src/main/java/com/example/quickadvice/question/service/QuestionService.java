@@ -1,39 +1,74 @@
 package com.example.quickadvice.question.service;
 
-import com.example.quickadvice.question.domain.Question;
+import com.example.quickadvice.question.domain.model.Question;
+import com.example.quickadvice.question.domain.repository.QuestionRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
 @Service
 public class QuestionService {
 
+    private QuestionRepository questionRepository;
+
+    public QuestionService(QuestionRepository questionRepository) {
+        this.questionRepository = questionRepository;
+    }
+
+    @Transactional(readOnly = true)
     public List<Question> getQuestions() {
-        return Arrays.asList(
-                new Question("Question 1"),
-                new Question("Question 2")
-        );
+        return questionRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     public Question getQuestion(UUID id) {
-        return new Question("Question");
+        return questionRepository.getById(id);
     }
 
-    public Question createQuestion(Question question) {
-        question.setId(UUID.randomUUID());
-        return question;
+    @Transactional
+    public Question createQuestion(Question questionRequest) {
+        Question question = new Question();
+
+        question.setName(questionRequest.getName());
+
+        return questionRepository.save(question);
     }
 
-    public Question updateQuestion(UUID id, Question question) {
-        return question;
+    @Transactional
+    public Question updateQuestion(UUID id, Question questionRequest) {
+        Question question = questionRepository.getById(id);
+
+        question.setName(questionRequest.getName());
+
+        return questionRepository.save(question);
     }
 
+    @Transactional
     public void deleteQuestion(UUID id) {
+        questionRepository.deleteById(id);
     }
 
+    @Transactional(readOnly = true)
     public List<Question> findAllByCategoryId(UUID id) {
-        return null;
+        return questionRepository.findAllByCategoryId(id);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Question> findHot(Pageable pageable) {
+        return questionRepository.findHot(pageable);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Question> findUnanswered(Pageable pageable) {
+        return questionRepository.findUnanswered(pageable);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Question> findByQuery(String query, Pageable pageable) {
+        return questionRepository.findByQuery(query, pageable);
     }
 }
