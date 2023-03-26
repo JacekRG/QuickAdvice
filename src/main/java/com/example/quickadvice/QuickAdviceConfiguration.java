@@ -4,8 +4,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationProperties(prefix = "ideas")
-public class IdeasConfiguration {
+@ConfigurationProperties(prefix = "quickadvice")
+public class QuickAdviceConfiguration {
     private  String name;
 
     public String getName() {

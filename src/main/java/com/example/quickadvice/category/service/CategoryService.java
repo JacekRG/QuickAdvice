@@ -1,6 +1,6 @@
 package com.example.quickadvice.category.service;
 
-import com.example.quickadvice.category.domain.Category;
+import com.example.quickadvice.category.domain.model.Category;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;

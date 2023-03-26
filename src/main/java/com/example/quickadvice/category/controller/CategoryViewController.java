@@ -1,6 +1,6 @@
 package com.example.quickadvice.category.controller;
 
-import com.example.quickadvice.category.domain.Category;
+import com.example.quickadvice.category.domain.model.Category;
 import com.example.quickadvice.category.service.CategoryService;
 import com.example.quickadvice.question.domain.Question;
 import com.example.quickadvice.question.service.QuestionService;
