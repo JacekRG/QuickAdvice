@@ -9,6 +9,7 @@ import com.example.quickadvice.question.service.QuestionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,72 +23,73 @@ import static com.example.quickadvice.common.controller.ControllerUtils.paging;
 @RequiredArgsConstructor
 public class QuestionViewController extends QuickAdviceCommonViewController {
 
-	private final QuestionService questionService;
-	private final AnswerService answerService;
-	private final CategoryService categoryService;
-	private final QuickAdviceConfiguration quickAdviceConfiguration;
+    private final QuestionService questionService;
+    private final AnswerService answerService;
+    private final CategoryService categoryService;
+    private final QuickAdviceConfiguration quickAdviceConfiguration;
 
-	@GetMapping
-	public String indexView(Model model){
-		model.addAttribute("questions", questionService.getQuestions());
-		addGlobalAttributes(model);
+    @GetMapping
+    public String indexView(Model model) {
+        model.addAttribute("questions", questionService.getQuestions());
+        model.addAttribute("categories", categoryService.getCategories(
+                PageRequest.of(0, 10, Sort.by("name").ascending())
+        ));
+        return "question/index";
+    }
 
-		return "question/index";
-	}
 
-	@GetMapping("{id}")
-	public String singleView(Model model, @PathVariable UUID id){
-		model.addAttribute("question", questionService.getQuestion(id));
-		model.addAttribute("answers", answerService.getAnswers(id));
-		addGlobalAttributes(model);
+    @GetMapping("{id}")
+    public String singleView(Model model, @PathVariable UUID id) {
+        model.addAttribute("question", questionService.getQuestion(id));
+        model.addAttribute("answers", answerService.getAnswers(id));
+        addGlobalAttributes(model);
 
-		return "question/single";
-	}
+        return "question/single";
+    }
 
-	@GetMapping("add")
-	public String addView(Model model){
-		model.addAttribute("question", new Question());
+    @GetMapping("add")
+    public String addView(Model model) {
+        model.addAttribute("question", new Question());
 
-		return "question/add";
-	}
+        return "question/add";
+    }
 
-	@PostMapping
-	public String add(Question question){
-		questionService.createQuestion(question);
+    @PostMapping
+    public String add(Question question) {
+        questionService.createQuestion(question);
 
-		return "redirect:/questions";
-	}
+        return "redirect:/questions";
+    }
 
-	@GetMapping("hot")
-	public String hotView(
-			@RequestParam(name = "page", defaultValue = "1") int page,
-			Model model
-	){
-		PageRequest pageRequest = PageRequest.of(page - 1, quickAdviceConfiguration.getPagingPageSize());
+    @GetMapping("hot")
+    public String hotView(
+            @RequestParam(name = "page", defaultValue = "1") int page,
+            Model model
+    ) {
+        PageRequest pageRequest = PageRequest.of(page - 1, quickAdviceConfiguration.getPagingPageSize());
 
-		Page<Question> questionsPage = questionService.findHot(pageRequest);
+        Page<Question> questionsPage = questionService.findHot(pageRequest);
 
-		model.addAttribute("questionsPage", questionsPage);
-		paging(model, questionsPage);
-		addGlobalAttributes(model);
+        model.addAttribute("questionsPage", questionsPage);
+        paging(model, questionsPage);
+        addGlobalAttributes(model);
 
-		return "question/index";
-	}
+        return "question/index";
+    }
 
-	@GetMapping("unanswered")
-	public String unansweredView(
-			@RequestParam(name = "page", defaultValue = "1") int page,
-			Model model
-	){
-		PageRequest pageRequest = PageRequest.of(page - 1, quickAdviceConfiguration.getPagingPageSize());
+    @GetMapping("unanswered")
+    public String unansweredView(
+            @RequestParam(name = "page", defaultValue = "1") int page,
+            Model model
+    ) {
+        PageRequest pageRequest = PageRequest.of(page - 1, quickAdviceConfiguration.getPagingPageSize());
 
-		Page<Question> questionsPage = questionService.findUnanswered(pageRequest);
+        Page<Question> questionsPage = questionService.findUnanswered(pageRequest);
 
-		model.addAttribute("questionsPage", questionsPage);
-		paging(model, questionsPage);
-		addGlobalAttributes(model);
+        model.addAttribute("questionsPage", questionsPage);
+        paging(model, questionsPage);
+        addGlobalAttributes(model);
 
-		return "question/index";
-	}
-
+        return "question/index";
+    }
 }
